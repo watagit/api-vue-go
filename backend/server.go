@@ -30,6 +30,19 @@ func getBooks(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(books)
 }
 
+func getBook(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	params := mux.Vars(r)
+	for _, item := range books {
+		if item.ID == params["id"] {
+			json.NewEncoder(w).Encode(item)
+			return
+		}
+	}
+	json.NewEncoder(w).Encode(&Book{})
+}
+
 func main() {
 	r := mux.NewRouter()
 
@@ -42,6 +55,7 @@ func main() {
 		Author: &Author{Firstname: "Mike", Lastname: "Green"}})
 	
 	r.HandleFunc("/api/books", getBooks).Methods("GET")
+	r.HandleFunc("/api/books/{id}", getBook).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8000", r))
 }
