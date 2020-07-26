@@ -1,15 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import App from '../App.vue'
+
+import BookIndex from '../pages/books/index.vue'
+import BookIdPage from '../pages/books/id.vue'
 
 Vue.use(VueRouter)
 
   const routes = [
   {
-    path: '/',
-    name: 'App',
-    component: App
+    path: '/api/books',
+    component: BookIndex
   },
+  {
+    path: '/api/books/:id',
+    component: BookIdPage
+  }
 ]
 
 const router = new VueRouter({
